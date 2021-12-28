@@ -34,7 +34,7 @@ public class EmployeeserviceImpl implements EmployeeService {
 
 
     @Override
-    public Employee getEmployeById(Long id) {
+    public Employee getEmployeById(Integer id) {
         Optional<Employee> optional = employeeRepository.findById(id);
         Employee employee = null;
         if (optional.isPresent()) {
@@ -46,13 +46,13 @@ public class EmployeeserviceImpl implements EmployeeService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         this.employeeRepository.deleteById(id);
 
     }
 
     @Override
-    public boolean isExist(Long id) {
+    public boolean isExist(Integer id) {
 
         return employeeRepository.existsById(id);
     }

@@ -50,7 +50,7 @@ public class RestEmployeeController {
     }
 
     @GetMapping("/getById/{id}")
-    public ResponseEntity <String>getStudent(@PathVariable("id") Long id) {
+    public ResponseEntity <String>getStudent(@PathVariable("id") Integer id) {
 
         Optional<Employee> employee = Optional.ofNullable(employeeService.getEmployeById(id));
 
@@ -67,7 +67,7 @@ public class RestEmployeeController {
     @PutMapping("/update")
     public ResponseEntity<String> updateEmployee(@RequestBody Employee employee) {
         ResponseEntity response = null;
-        Long id = employee.getId();
+        Integer id = employee.getId();
         if (employeeService.isExist(id)) {
             Long uId = employeeService.saveEmployee(employee);
             response = new ResponseEntity<String>("update succesfull for id" + id, HttpStatus.OK);
@@ -78,7 +78,7 @@ public class RestEmployeeController {
     }
 
     @DeleteMapping("/deletById/{id}")
-    public List<Employee> deleteEmp(@PathVariable Long id) {
+    public List<Employee> deleteEmp(@PathVariable Integer id) {
         employeeService.deleteById(id);
         return employeeService.getAllEmployees();
 
