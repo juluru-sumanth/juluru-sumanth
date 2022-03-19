@@ -1,12 +1,16 @@
 package com.ems.serviceimpl;
 
 import com.ems.entity.Employee;
+import com.ems.exceptions.UserExistingException;
+import com.ems.exceptions.UserNotFoundException;
 import com.ems.repository.EmployeeRepository;
 
 import com.ems.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,31 +28,40 @@ public class EmployeeserviceImpl implements EmployeeService {
     }
 
     @Override
-    public Long saveEmployee(Employee employee) {
+    public Employee saveEmployee(Employee employee) throws UserExistingException {
 
-        this.employeeRepository.save(employee);
-        return null;
+        Employee existEmployee =  employeeRepository.getById(employee.getId());
+
+        if (existEmployee != null) {
+            throw new UserExistingException("User already exist in repository");
+        }
+        return employeeRepository.save(employee);
     }
 
 
-
-
     @Override
-    public Employee getEmployeById(Integer id) {
+    public Optional<Employee> getEmployeById(Integer id) throws UserNotFoundException {
         Optional<Employee> optional = employeeRepository.findById(id);
         Employee employee = null;
-        if (optional.isPresent()) {
-            employee = optional.get();
-        } else {
-            throw new RuntimeException("Employee not found for id " + id);
+//        if (optional.isPresent()) {
+//            employee = optional.get();
+//        } else {
+//            throw new UserNotFoundException("Employee not found for id " + id);
+//        }
+
+        if (!optional.isPresent()) {
+            throw new UserNotFoundException("UserNotFound with this id" + id);
         }
-        return employee;
+        return optional;
     }
 
     @Override
     public void deleteById(Integer id) {
-        this.employeeRepository.deleteById(id);
-
+        Optional<Employee> optionalEmployee = this.employeeRepository.findById(id);
+        if (!optionalEmployee.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found with given id - " + id);
+        }
+        employeeRepository.deleteById(id);
     }
 
     @Override

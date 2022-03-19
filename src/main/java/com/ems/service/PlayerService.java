@@ -5,7 +5,10 @@ import com.ems.entity.Player;
 import java.util.List;
 
 public interface PlayerService {
-    public void savePlayer(Player player);
+    public Player savePlayer(Player player);
 
     public List<Player> allPlayers();
+    public List<Player> findByTeam(String team);
+    public Player getById(int id);
+    public  boolean isExist(Integer team);
 }

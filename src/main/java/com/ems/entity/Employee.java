@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -22,6 +24,10 @@ public class Employee {
     private String firstName;
     @Column(name="last_name")
     private String lastName;
+    @Email
+    @NotNull(message = "Email cannot be null")
     @Column(name="email")
     private String email;
+
+    
 }

@@ -15,13 +15,28 @@ public class PlayerServiceImpl implements PlayerService {
     private PlayerRepository playerRepository;
 
     @Override
-    public void savePlayer(Player player) {
-        this.playerRepository.save(player);
+    public Player savePlayer(Player player) {
+        return playerRepository.save(player);
 
     }
 
     @Override
     public List<Player> allPlayers() {
         return playerRepository.findAll();
+    }
+
+    @Override
+    public List<Player> findByTeam(String team) {
+        return playerRepository.findByTeam(team);
+    }
+
+    @Override
+    public Player getById(int id) {
+        return playerRepository.findById(id).get();
+    }
+
+    @Override
+    public boolean isExist(Integer team) {
+        return playerRepository.existsById(team);
     }
 }
