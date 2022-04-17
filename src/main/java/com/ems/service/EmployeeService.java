@@ -16,4 +16,6 @@ public interface EmployeeService {
     public void deleteById(Integer id) throws UserNotFoundException;
     public  boolean isExist(Integer id);
     public  List<Employee> getByFirstName(String firstName);
+
+    public  Employee getByfName(String fName);
 }

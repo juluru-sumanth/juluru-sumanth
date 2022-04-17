@@ -68,11 +68,16 @@ public class RestEmployeeController {
     }
 
 
-    @GetMapping("/getByName/{firstName}")
-    public List<Employee> getByName(@PathVariable("firstName") String firstName) {
-        return employeeService.getByFirstName(firstName);
-
-    }
+//    @GetMapping("/getByName/{firstName}")
+//    public List<Employee> getByName(@PathVariable("firstName") String firstName) throws UserNotFoundException {
+//        Employee employee= (Employee) employeeService.getByFirstName(firstName);
+//
+//        if(employee==null){
+//            throw new UserNotFoundException("User not found '"+firstName);
+//        }
+//
+//        return (List<Employee>) employee;
+//    }
 
     @GetMapping("/getById/{id}")
     public Optional<Employee> getStudent(@PathVariable("id") Integer id) {
@@ -120,5 +125,24 @@ public class RestEmployeeController {
         }
         return response;
     }
+
+    @GetMapping("/firstName/{fName}")
+    public Employee getById(@PathVariable("fName") String fName) throws UserNotFoundException {
+
+        Employee employee=null;
+        try {
+             employee = (Employee) employeeService.getByfName(fName);
+
+            if (employee == null) {
+                throw new UserNotFoundException("User not found '" + fName);
+            }
+        }catch (Exception  ex){
+            throw new UserNotFoundException("User not found ");
+        }
+
+
+        return employee;
+        }
+
 
 }
